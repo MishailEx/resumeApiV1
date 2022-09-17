@@ -6,4 +6,11 @@ import lombok.Data;
 public class ResumeDto {
 
     private String description;
+
+    public ResumeDto() {
+    }
+
+    public ResumeDto(String description) {
+        this.description = description;
+    }
 }

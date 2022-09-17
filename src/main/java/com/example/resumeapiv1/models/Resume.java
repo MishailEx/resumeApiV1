@@ -1,7 +1,5 @@
 package com.example.resumeapiv1.models;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -17,6 +15,10 @@ public class Resume {
     @Column(name = "description")
     @NotBlank(message = "email must be not empty")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name="person")
+    private Person person;
 
     public Resume() {
     }
@@ -39,5 +41,13 @@ public class Resume {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

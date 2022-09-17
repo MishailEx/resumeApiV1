@@ -3,7 +3,6 @@ package com.example.resumeapiv1.services;
 import com.example.resumeapiv1.dto.ResumeDto;
 import com.example.resumeapiv1.models.Person;
 import com.example.resumeapiv1.models.Resume;
-import com.example.resumeapiv1.repositories.PersonRepository;
 import com.example.resumeapiv1.repositories.ResumeRepository;
 import com.example.resumeapiv1.utill.AuthPerson;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ public class ResumeService {
     public Resume create(ResumeDto resumeDto) {
         Resume resume = new Resume(resumeDto.getDescription());
         Person person = AuthPerson.getAuthPerson();
-        person.getResumes().add(resume);
+        resume.setPerson(person);
         return resumeRepository.save(resume);
     }
 
@@ -50,6 +49,6 @@ public class ResumeService {
 
     public List<Resume> findAll() {
         Person person = AuthPerson.getAuthPerson();
-        return person.getResumes();
+        return resumeRepository.findByPerson(person);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/resume")
@@ -20,34 +21,36 @@ public class ResumeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Resume>> findAll() {
+    public ResponseEntity<List<ResumeDto>> findAll() {
         return new ResponseEntity<>(
-                resumeService.findAll(),
+                resumeService.findAll().stream()
+                        .map(this::toResumeDto)
+                        .collect(Collectors.toList()),
                 HttpStatus.OK
         );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resume> findById(@PathVariable int id) {
+    public ResponseEntity<ResumeDto> findById(@PathVariable int id) {
         return new ResponseEntity<>(
-                resumeService.findById(id),
+                toResumeDto(resumeService.findById(id)),
                 HttpStatus.OK
         );
     }
 
     @PostMapping
-    public ResponseEntity<Resume> create(@RequestBody ResumeDto resumeDto) {
+    public ResponseEntity<ResumeDto> create(@RequestBody ResumeDto resumeDto) {
         Resume save = resumeService.create(resumeDto);
         return new ResponseEntity<>(
-                save,
+                toResumeDto(save),
                 HttpStatus.CREATED
         );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Resume> update(@PathVariable int id, @RequestBody ResumeDto resumeDto) {
+    public ResponseEntity<ResumeDto> update(@PathVariable int id, @RequestBody ResumeDto resumeDto) {
         return new ResponseEntity<>(
-                resumeService.update(id, resumeDto),
+                toResumeDto(resumeService.update(id, resumeDto)),
                 HttpStatus.ACCEPTED
         );
     }
@@ -56,5 +59,9 @@ public class ResumeController {
     public ResponseEntity<Void> delete(@PathVariable int id) {
        resumeService.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    private ResumeDto toResumeDto(Resume resume) {
+        return new ResumeDto(resume.getDescription());
     }
 }

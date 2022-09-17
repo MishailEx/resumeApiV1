@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Table(name = "person")
@@ -35,9 +34,6 @@ public class Person {
     @Column(name = "email")
     @NotBlank(message = "email must be not empty")
     private String email;
-
-    @OneToMany
-    private List<Resume> resumes;
 
     public Person() {
     }
