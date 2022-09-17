@@ -6,8 +6,10 @@ import com.example.resumeapiv1.models.Resume;
 import com.example.resumeapiv1.repositories.PersonRepository;
 import com.example.resumeapiv1.repositories.ResumeRepository;
 import com.example.resumeapiv1.utill.AuthPerson;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -30,7 +32,8 @@ public class ResumeService {
 
     @Transactional
     public Resume update(int id, ResumeDto resumeDto) {
-        Resume resumeRsl = resumeRepository.findById(id).get();
+        Resume resumeRsl = resumeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "a resume not found"));
         resumeRsl.setDescription(resumeDto.getDescription());
         return resumeRepository.save(resumeRsl);
     }
@@ -41,7 +44,8 @@ public class ResumeService {
     }
 
     public Resume findById(int id) {
-        return resumeRepository.findById(id).get();
+        return resumeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "a resume not found"));
     }
 
     public List<Resume> findAll() {

@@ -35,7 +35,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid Person person, HttpServletResponse res) {
+    public ResponseEntity<PersonDto> create(@RequestBody @Valid Person person, HttpServletResponse res) {
         Person save = this.personService.save(person);
         jwtConfig.createToken(save.getName(), res);
         return new ResponseEntity<>(
@@ -45,8 +45,7 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonDto> update(@PathVariable int id, @RequestBody @Valid Person person,
-                                            BindingResult bindingResult) {
+    public ResponseEntity<PersonDto> update(@PathVariable int id, @RequestBody @Valid Person person) {
         return new ResponseEntity<>(
                 convertToDto(this.personService.update(id, person)),
                 HttpStatus.ACCEPTED

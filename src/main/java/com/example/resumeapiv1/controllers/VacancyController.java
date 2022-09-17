@@ -2,7 +2,6 @@ package com.example.resumeapiv1.controllers;
 
 import com.example.resumeapiv1.models.Person;
 import com.example.resumeapiv1.models.Vacancy;
-import com.example.resumeapiv1.services.PersonService;
 import com.example.resumeapiv1.services.VacancyService;
 import com.example.resumeapiv1.utill.AuthPerson;
 import org.springframework.http.HttpStatus;
@@ -45,6 +44,4 @@ public class VacancyController {
                 HttpStatus.ACCEPTED
         );
     }
-
-
 }
